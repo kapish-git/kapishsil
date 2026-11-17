@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3F5F8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Connection card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Not sharing"
+                android:textColor="#1A1D21"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="#C62828"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <Switch
+                android:id="@+id/hotspotSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Create my own Wi-Fi (use when there is no shared Wi-Fi)"
+                android:textColor="#3A3F45"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/startStop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Start sharing" />
+
+            <!-- Step 1: join hotspot -->
+            <LinearLayout
+                android:id="@+id/wifiBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Step 1 · On iPhone, open Camera and scan to join Wi-Fi"
+                    android:textColor="#1A1D21"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/wifiQr"
+                    android:layout_width="220dp"
+                    android:layout_height="220dp"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/wifiText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="#5A6069"
+                    android:textIsSelectable="true" />
+            </LinearLayout>
+
+            <!-- Step 2: open page -->
+            <LinearLayout
+                android:id="@+id/urlBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/urlTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="On iPhone, open Camera and scan this code"
+                    android:textColor="#1A1D21"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/urlQr"
+                    android:layout_width="220dp"
+                    android:layout_height="220dp"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/urlText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="#1E6FD9"
+                    android:textIsSelectable="true" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Both phones must be on the same Wi-Fi (or the iPhone joined to this phone's hotspot). Nothing needs to be installed on the iPhone."
+                android:textColor="#5A6069"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/lastEvent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="#2E7D32"
+                android:textSize="14sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- Outgoing files -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Send to iPhone"
+                android:textColor="#1A1D21"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/outgoingList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/outgoingEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:text="No files yet. Tap “Add files”, or use Share → BridgeShare from any app."
+                android:textColor="#5A6069" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/addFiles"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Add files" />
+
+                <Button
+                    android:id="@+id/clearFiles"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Clear" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Incoming files -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Received from iPhone"
+                android:textColor="#1A1D21"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Saved to Pictures, Movies or Download › BridgeShare"
+                android:textColor="#5A6069"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:id="@+id/incomingList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/incomingEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nothing received yet."
+                android:textColor="#5A6069" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

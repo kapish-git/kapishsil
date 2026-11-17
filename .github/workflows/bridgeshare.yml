@@ -1,0 +1,25 @@
+name: Build BridgeShare APK
+
+on:
+  push:
+    paths: ['BridgeShare/**', '.github/workflows/bridgeshare.yml']
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: BridgeShare
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - run: ./gradlew assembleDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: BridgeShare-apk
+          path: BridgeShare/app/build/outputs/apk/debug/app-debug.apk
