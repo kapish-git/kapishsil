@@ -19,6 +19,18 @@
         android:usesPermissionFlags="neverForLocation"
         tools:targetApi="33" />
 
+    <!-- Lets the app find Samsung / Google Quick Share on Android 11+ -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="*/*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND_MULTIPLE" />
+            <data android:mimeType="*/*" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"

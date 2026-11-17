@@ -6,12 +6,21 @@ The Android app runs a small web server on the phone. The iPhone scans a QR code
 Camera and opens a page in Safari to download files from Android or upload photos and
 files to it. Transfers stay on the local Wi-Fi: no internet, no cloud.
 
-> This is not AirDrop. Third-party Android apps cannot use Apple's AirDrop protocol, so
-> BridgeShare does not appear in the iPhone's AirDrop menu. It uses Safari instead.
+## AirDrop
+
+Third-party apps can't speak Apple's AirDrop protocol themselves. On phones whose built-in
+Quick Share supports **Share with Apple devices** (for example Galaxy S24 on One UI 8.5,
+Galaxy S26, Pixel 10), the **Send via AirDrop (Quick Share)** button hands your files to
+Quick Share, and the iPhone shows up there as an AirDrop target.
+
+- Android: Settings › Connected devices › Quick Share › turn on **Share with Apple devices**.
+- iPhone: Settings › General › AirDrop › **Everyone for 10 minutes**.
+
+On other phones, use the QR code / Safari method below.
 
 ## Install
 
-1. Copy `release/BridgeShare-1.0.apk` to the Android phone (Android 8.0 or newer) and open it.
+1. Copy `release/BridgeShare-1.1.apk` to the Android phone (Android 8.0 or newer) and open it.
 2. Allow "Install unknown apps" for your browser or file manager when asked.
 
 ## Use

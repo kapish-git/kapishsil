@@ -4,9 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -24,11 +26,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends Activity {
 
     private static final int REQ_PICK = 1;
     private static final int REQ_PERMS = 2;
+    private static final String SAMSUNG_QUICK_SHARE = "com.samsung.android.app.sharelive";
 
     private TextView status, error, wifiText, urlTitle, urlText, lastEvent, outgoingEmpty, incomingEmpty;
     private ImageView wifiQr, urlQr;
@@ -76,6 +80,7 @@ public class MainActivity extends Activity {
                 requestStart();
             }
         });
+        findViewById(R.id.airdrop).setOnClickListener(v -> sendViaQuickShare());
         findViewById(R.id.addFiles).setOnClickListener(v -> pickFiles());
         findViewById(R.id.clearFiles).setOnClickListener(v -> FileStore.get().clearOutgoing());
 
@@ -216,6 +221,86 @@ public class MainActivity extends Activity {
 
     private void autoStart() {
         if (!ShareService.STATE.running) requestStart();
+    }
+
+    // ---------------------------------------------------------------- AirDrop via Quick Share
+
+    /**
+     * Hands the files to the phone's built-in Quick Share. On phones where Quick Share has
+     * "Share with Apple devices" (e.g. Galaxy S24 with One UI 8.5, Pixel 10), the iPhone
+     * appears there as an AirDrop target. Apps can't speak AirDrop themselves.
+     */
+    private void sendViaQuickShare() {
+        List<FileStore.Item> items = FileStore.get().outgoing();
+        if (items.isEmpty()) {
+            Toast.makeText(this, "Add files first", Toast.LENGTH_SHORT).show();
+            pickFiles();
+            return;
+        }
+        Intent send = buildSendIntent(items);
+        ComponentName quickShare = findQuickShare(send);
+        if (quickShare != null) {
+            try {
+                startActivity(new Intent(send).setComponent(quickShare));
+                return;
+            } catch (Exception ignored) {
+                // fall through to the chooser
+            }
+        }
+        Toast.makeText(this, "Pick Quick Share in the list", Toast.LENGTH_LONG).show();
+        Intent chooser = Intent.createChooser(send, "Send with Quick Share");
+        chooser.putExtra(Intent.EXTRA_EXCLUDE_COMPONENTS,
+                new ComponentName[]{new ComponentName(this, MainActivity.class)});
+        startActivity(chooser);
+    }
+
+    private Intent buildSendIntent(List<FileStore.Item> items) {
+        Intent send;
+        if (items.size() == 1) {
+            send = new Intent(Intent.ACTION_SEND)
+                    .setType(items.get(0).mime)
+                    .putExtra(Intent.EXTRA_STREAM, items.get(0).uri);
+        } else {
+            ArrayList<Uri> uris = new ArrayList<>();
+            String type = null;
+            for (FileStore.Item i : items) {
+                uris.add(i.uri);
+                String group = i.mime.contains("/") ? i.mime.substring(0, i.mime.indexOf('/')) : "*";
+                if (type == null) type = i.mime;
+                else if (!type.equals(i.mime)) {
+                    type = type.startsWith(group + "/") ? group + "/*" : "*/*";
+                }
+            }
+            send = new Intent(Intent.ACTION_SEND_MULTIPLE)
+                    .setType(type)
+                    .putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+        }
+        ClipData clip = null;
+        for (FileStore.Item i : items) {
+            if (clip == null) clip = ClipData.newRawUri(i.name, i.uri);
+            else clip.addItem(new ClipData.Item(i.uri));
+        }
+        send.setClipData(clip);
+        send.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        return send;
+    }
+
+    private ComponentName findQuickShare(Intent send) {
+        List<ResolveInfo> targets = getPackageManager().queryIntentActivities(send, 0);
+        // Samsung Quick Share first, then Google Quick Share (part of Play services).
+        for (ResolveInfo r : targets) {
+            if (SAMSUNG_QUICK_SHARE.equals(r.activityInfo.packageName)) {
+                return new ComponentName(r.activityInfo.packageName, r.activityInfo.name);
+            }
+        }
+        for (ResolveInfo r : targets) {
+            String name = r.activityInfo.name.toLowerCase(Locale.ROOT);
+            if ("com.google.android.gms".equals(r.activityInfo.packageName)
+                    && (name.contains("nearby.sharing") || name.contains("quickshare"))) {
+                return new ComponentName(r.activityInfo.packageName, r.activityInfo.name);
+            }
+        }
+        return null;
     }
 
     private void openReceived(FileStore.Item item) {
