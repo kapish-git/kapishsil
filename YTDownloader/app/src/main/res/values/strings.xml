@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">YT Downloader</string>
+    <string name="url_hint">YouTube video or playlist link</string>
+    <string name="paste">Paste</string>
+    <string name="fetch">Get video info</string>
+    <string name="single_only">Only this video (ignore the playlist)</string>
+    <string name="quality">Quality</string>
+    <string name="download">Download</string>
+    <string name="downloads">Downloads</string>
+    <string name="downloading">Downloading</string>
+    <string name="downloads_finished">Downloads finished</string>
+    <string name="cancel">Cancel</string>
+    <string name="cancel_all">Cancel all</string>
+    <string name="retry">Retry</string>
+    <string name="view">View</string>
+    <string name="select_all">Select all</string>
+    <string name="select_none">Select none</string>
+    <string name="clear_finished">Clear finished</string>
+    <string name="no_downloads">No downloads yet</string>
+    <string name="update_ytdlp">Update yt-dlp</string>
+    <string name="about">About</string>
+</resources>
