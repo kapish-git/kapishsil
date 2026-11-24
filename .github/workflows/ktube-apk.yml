@@ -1,0 +1,30 @@
+name: Build KTube APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "KTube/**"
+      - ".github/workflows/ktube-apk.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: KTube
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      # GitHub's ubuntu runners already ship the Android SDK (ANDROID_HOME is set).
+      - name: Build release APK
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: KTube
+          path: KTube/app/build/outputs/apk/release/app-release.apk

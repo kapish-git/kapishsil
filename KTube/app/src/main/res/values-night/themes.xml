@@ -1,0 +1,12 @@
+<resources>
+    <style name="Theme.KTube" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#FF4E45</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSurface">#0F0F0F</item>
+        <item name="android:colorBackground">#0F0F0F</item>
+        <item name="colorSurfaceContainer">#1A1A1A</item>
+        <item name="colorSurfaceContainerHigh">#212121</item>
+        <item name="colorSecondaryContainer">#272727</item>
+        <item name="colorOnSecondaryContainer">#F1F1F1</item>
+    </style>
+</resources>

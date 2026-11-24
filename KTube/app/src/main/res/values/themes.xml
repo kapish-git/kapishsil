@@ -1,0 +1,30 @@
+<resources>
+    <style name="Theme.KTube" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/brand</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#FFDAD6</item>
+        <item name="colorSecondaryContainer">#EFEFEF</item>
+        <item name="colorOnSecondaryContainer">#0F0F0F</item>
+    </style>
+
+    <style name="Theme.KTube.Player" parent="Theme.KTube" />
+
+    <style name="TextAppearance.KTube.Logo" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.02</item>
+    </style>
+
+    <style name="KTube.IconButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:tint">?attr/colorOnSurface</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="KTube.PillButton" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">4dp</item>
+    </style>
+</resources>
