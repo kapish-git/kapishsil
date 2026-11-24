@@ -19,9 +19,11 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
-      - uses: android-actions/setup-android@v3
+      # GitHub's ubuntu runners already ship the Android SDK (ANDROID_HOME is set).
       - name: Build release APKs
-        run: ./gradlew assembleRelease --no-daemon
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: YTDownloader-arm64-v8a
